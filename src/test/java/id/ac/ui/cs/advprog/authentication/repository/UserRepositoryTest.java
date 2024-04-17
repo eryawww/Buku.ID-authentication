@@ -2,6 +2,8 @@ package id.ac.ui.cs.advprog.authentication.repository;
 
 import id.ac.ui.cs.advprog.authentication.enums.GenderEnum;
 import id.ac.ui.cs.advprog.authentication.model.User;
+import id.ac.ui.cs.advprog.authentication.model.UserBuilder;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -16,75 +18,79 @@ import static org.junit.jupiter.api.Assertions.*;
 @ExtendWith(MockitoExtension.class)
 public class UserRepositoryTest {
 
-    @InjectMocks
-    UserRepository userRepository;
+  @InjectMocks
+  UserRepository userRepository;
 
-    User USER1 = new User();
-    User USER2 = new User();
-    @BeforeEach
-    void setUp() {
-        USER1.setFullname("Andi");
-        USER1.setEmail("andi@gmail.com");
-        USER1.setPhone("081321543876");
-        //        TODO: SET PASSWORD TO ENCRYPTION
-        USER1.setPassword("AXASW123ASXASEA");
-        USER1.setBio("An assembly competitive programmer");
-        USER1.setGender(GenderEnum.MALE.toString());
+  UserBuilder builder = new UserBuilder();
+  User USER1 = null;
+  User USER2 = null;
 
-        USER2.setFullname("Nai");
-        USER2.setEmail("nai@gmail.com");
-        USER2.setPhone("08123456789");
-        //        TODO: SET PASSWORD TO ENCRYPTION
-        USER2.setPassword("ZZXX123OWKX");
-        USER2.setBio("A market beater quant");
-        USER2.setGender(GenderEnum.FEMALE.toString());
-        USER2.setIdUser(1);
-    }
-    @Test
-    void testDuplicateId(){
-        userRepository.create(USER1);
+  @BeforeEach
+  void setUp() {
+    USER1 = builder.setFullname("Andi")
+        .setEmail("andi@gmail.com")
+        .setPhone("081321543876")
+        .setPassword("AXASW123ASXASEA")
+        .setBio("An assembly competitive programmer")
+        .setGender(GenderEnum.MALE.toString())
+        .build();
+    USER1.setIdUser(0);
 
-        User duplicateUser = new User();
-        // Check Null is executed last, so this is fine
-        duplicateUser.setIdUser(USER1.getIdUser());
-        assertNull(userRepository.create(duplicateUser));
-    }
+    USER2 = builder.setFullname("Nai")
+        .setEmail("nai@gmail.com")
+        .setPhone("08123456789")
+        .setPassword("ZZXX123OWKX")
+        .setBio("A market beater quant")
+        .setGender(GenderEnum.FEMALE.toString())
+        .build();
+    USER2.setIdUser(1);
+  }
 
-    @Test
-    void testInvalidGender(){
-        User invalidGenderUser = new User();
-        // Check Null is executed last, so this is fine
-        invalidGenderUser.setGender("MIAW");
+  @Test
+  void testDuplicateId() {
+    userRepository.create(USER1);
 
-        assertNull(userRepository.create(invalidGenderUser));
-    }
+    User duplicateUser = builder.build();
+    // Check Null is executed last, so this is fine
+    duplicateUser.setIdUser(USER1.getIdUser());
+    assertNull(userRepository.create(duplicateUser));
+  }
 
-    @Test
-    void testNullAttribute(){
-        User nullAttribute = new User();
+  @Test
+  void testInvalidGender() {
+    User invalidGenderUser = builder.build();
+    // Check Null is executed last, so this is fine
+    invalidGenderUser.setGender("MIAW");
 
-        assertNull(userRepository.create(nullAttribute));
+    assertNull(userRepository.create(invalidGenderUser));
+  }
 
-        nullAttribute.setFullname("restu");
-        assertNull(userRepository.create(nullAttribute));
+  @Test
+  void testNullAttribute() {
+    User nullAttribute = builder.build();
 
-        nullAttribute.setEmail("restugeming@gmail.com");
-        assertNull(userRepository.create(nullAttribute));
+    assertNull(userRepository.create(nullAttribute));
 
-        nullAttribute.setPhone("696969696969");
-        assertNull(userRepository.create(nullAttribute));
+    nullAttribute.setFullname("restu");
+    assertNull(userRepository.create(nullAttribute));
 
-        nullAttribute.setPassword("restu123");
-        assertNull(userRepository.create(nullAttribute));
+    nullAttribute.setEmail("restugeming@gmail.com");
+    assertNull(userRepository.create(nullAttribute));
 
-        nullAttribute.setBio("ADPRO? HARUS A");
-        assertNull(userRepository.create(nullAttribute));
+    nullAttribute.setPhone("696969696969");
+    assertNull(userRepository.create(nullAttribute));
 
-        nullAttribute.setGender(GenderEnum.FEMALE.toString());
-        // Since idUser is automatically set, everything is set
-        assertNotNull(userRepository.create(nullAttribute));
+    nullAttribute.setPassword("restu123");
+    assertNull(userRepository.create(nullAttribute));
 
-        nullAttribute.setIdUser(5012);
-        assertNotNull(userRepository.create(nullAttribute));
-    }
+    nullAttribute.setBio("ADPRO? HARUS A");
+    assertNull(userRepository.create(nullAttribute));
+
+    nullAttribute.setGender(GenderEnum.FEMALE.toString());
+    // Since idUser is automatically set, everything is set
+    assertNotNull(userRepository.create(nullAttribute));
+
+    nullAttribute.setIdUser(5012);
+    assertNotNull(userRepository.create(nullAttribute));
+  }
 }

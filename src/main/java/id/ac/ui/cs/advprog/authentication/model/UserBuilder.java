@@ -45,6 +45,17 @@ public class UserBuilder {
   }
 
   public User build() {
-    return new User(this);
+    User user = new User(this);
+    reset();
+    return user;
+  }
+
+  private void reset() {
+    this.fullname = null;
+    this.email = null;
+    this.phone = null;
+    this.password = null;
+    this.bio = null;
+    this.gender = null;
   }
 }
