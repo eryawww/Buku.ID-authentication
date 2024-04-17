@@ -11,26 +11,28 @@ import static org.junit.jupiter.api.Assertions.*;
     Focus on the fact that parameter won't change
  */
 public class UserTest {
-  User USER1 = new User();
-  User USER2 = new User();
+  UserBuilder builder = new UserBuilder();
+  User USER1 = null;
+  User USER2 = null;
 
   @BeforeEach
   void setUp() {
-    USER1.setFullname("Andi");
-    USER1.setEmail("andi@gmail.com");
-    USER1.setPhone("081321543876");
-    // TODO: SET PASSWORD TO ENCRYPTION
-    USER1.setPassword("AXASW123ASXASEA");
-    USER1.setBio("An assembly competitive programmer");
-    USER1.setGender(GenderEnum.MALE.toString());
+    USER1 = builder.setFullname("Andi")
+        .setEmail("andi@gmail.com")
+        .setPhone("081321543876")
+        .setPassword("AXASW123ASXASEA")
+        .setBio("An assembly competitive programmer")
+        .setGender(GenderEnum.MALE.toString())
+        .build();
+    USER1.setIdUser(0);
 
-    USER2.setFullname("Nai");
-    USER2.setEmail("nai@gmail.com");
-    USER2.setPhone("08123456789");
-    // TODO: SET PASSWORD TO ENCRYPTION
-    USER2.setPassword("ZZXX123OWKX");
-    USER2.setBio("A market beater quant");
-    USER2.setGender(GenderEnum.FEMALE.toString());
+    USER2 = builder.setFullname("Nai")
+        .setEmail("nai@gmail.com")
+        .setPhone("08123456789")
+        .setPassword("ZZXX123OWKX")
+        .setBio("A market beater quant")
+        .setGender(GenderEnum.FEMALE.toString())
+        .build();
     USER2.setIdUser(1);
   }
 
