@@ -10,7 +10,6 @@ public class User {
     private String phone;
     private String password;
     private String bio;
-    private Integer gender;
+    private String gender;
     private Integer idUser;
-
 }
