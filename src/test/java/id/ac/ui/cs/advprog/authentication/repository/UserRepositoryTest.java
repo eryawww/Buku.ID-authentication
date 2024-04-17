@@ -1,6 +1,6 @@
 package id.ac.ui.cs.advprog.authentication.repository;
 
-import enums.GenderEnum;
+import id.ac.ui.cs.advprog.authentication.enums.GenderEnum;
 import id.ac.ui.cs.advprog.authentication.model.User;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -9,9 +9,6 @@ import org.mockito.InjectMocks;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.junit.jupiter.api.Assertions.*;
-
-import java.security.InvalidParameterException;
-import java.util.List;
 
 /*
     Focus on the fact that parameter won't change
@@ -32,7 +29,7 @@ public class UserRepositoryTest {
         //        TODO: SET PASSWORD TO ENCRYPTION
         USER1.setPassword("AXASW123ASXASEA");
         USER1.setBio("An assembly competitive programmer");
-        USER1.setGender(GenderEnum.MALE);
+        USER1.setGender(GenderEnum.MALE.toString());
 
         USER2.setFullname("Nai");
         USER2.setEmail("nai@gmail.com");
@@ -40,7 +37,7 @@ public class UserRepositoryTest {
         //        TODO: SET PASSWORD TO ENCRYPTION
         USER2.setPassword("ZZXX123OWKX");
         USER2.setBio("A market beater quant");
-        USER2.setGender(GenderEnum.FEMALE);
+        USER2.setGender(GenderEnum.FEMALE.toString());
         USER2.setIdUser(1);
     }
     @Test
@@ -57,7 +54,7 @@ public class UserRepositoryTest {
     void testInvalidGender(){
         User invalidGenderUser = new User();
         // Check Null is executed last, so this is fine
-        invalidGenderUser.setGender(69);
+        invalidGenderUser.setGender("MIAW");
 
         assertNull(userRepository.create(invalidGenderUser));
     }
@@ -83,7 +80,7 @@ public class UserRepositoryTest {
         nullAttribute.setBio("ADPRO? HARUS A");
         assertNull(userRepository.create(nullAttribute));
 
-        nullAttribute.setGender(GenderEnum.FEMALE);
+        nullAttribute.setGender(GenderEnum.FEMALE.toString());
         // Since idUser is automatically set, everything is set
         assertNotNull(userRepository.create(nullAttribute));
 
