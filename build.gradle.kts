@@ -30,6 +30,9 @@ dependencies {
     annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
     annotationProcessor("org.projectlombok:lombok")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
+    implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+    implementation("com.github.javafaker:javafaker:1.0.2")
+    runtimeOnly("org.postgresql:postgresql")
 }
 
 tasks.register<Test>("unitTest") {
