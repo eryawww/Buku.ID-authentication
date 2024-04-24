@@ -9,8 +9,8 @@ import lombok.Getter;
 public class UserBuilder {
   UserEntity currentUser = new UserEntity();
 
-  public UserBuilder setFullname(String fullname) {
-    currentUser.setFullName(fullname);
+  public UserBuilder setFullName(String fullName) {
+    currentUser.setFullName(fullName);
     return this;
   }
 

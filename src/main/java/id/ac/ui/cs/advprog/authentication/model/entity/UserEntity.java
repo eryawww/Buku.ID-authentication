@@ -1,19 +1,38 @@
 package id.ac.ui.cs.advprog.authentication.model.entity;
 
-import java.util.UUID;
-
 import id.ac.ui.cs.advprog.authentication.enums.GenderEnum;
+import jakarta.persistence.*;
 import lombok.Getter;
 
+import java.util.UUID;
+
+@Entity
+@Table(name = "user")
 @Getter
 public class UserEntity {
-  private String fullName;
-  private String email;
-  private String phone;
-  private String password;
-  private String bio;
-  private String gender;
+
+  @Id
+  @Column(name = "id_user", nullable = false, unique = true)
+  @GeneratedValue(strategy = GenerationType.UUID)
   private String idUser;
+
+  @Column(name = "full_name", nullable = false, length = 100)
+  private String fullName;
+
+  @Column(name = "email", nullable = false, unique = true, length = 100)
+  private String email;
+
+  @Column(name = "phone", nullable = false, length = 17)
+  private String phone;
+
+  @Column(name = "password", nullable = false, length = 100)
+  private String password;
+
+  @Column(name = "bio")
+  private String bio;
+
+  @Column(name = "gender", nullable = false)
+  private String gender;
 
   public UserEntity() {
     this.idUser = UUID.randomUUID().toString();
@@ -72,11 +91,11 @@ public class UserEntity {
     }
   }
 
-  private void checkFullName(String fullname) {
-    if (fullname == null || fullname.isEmpty())
+  private void checkFullName(String fullName) {
+    if (fullName == null || fullName.isEmpty())
       throw new IllegalArgumentException("FullName is Empty");
 
-    if (fullname.length() < 3) {
+    if (fullName.length() < 3) {
       throw new IllegalArgumentException("FullName is not valid");
     }
   }

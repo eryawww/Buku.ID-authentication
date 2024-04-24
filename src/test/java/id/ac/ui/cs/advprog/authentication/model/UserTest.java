@@ -20,7 +20,7 @@ public class UserTest {
   @BeforeEach
   void setUp() {
 
-    user = userBuilder.setFullname("Andi")
+    user = userBuilder.setFullName("Andi")
         .setEmail("andi@gmail.com")
         .setPhone("081321543876")
         .setPassword("AXASW123ASXASEA")
