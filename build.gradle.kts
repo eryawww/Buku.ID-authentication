@@ -31,7 +31,7 @@ dependencies {
     annotationProcessor("org.projectlombok:lombok")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
-    implementation("com.github.javafaker:javafaker:1.0.2")
+	implementation("net.datafaker:datafaker:1.5.0")
     runtimeOnly("org.postgresql:postgresql")
 }
 

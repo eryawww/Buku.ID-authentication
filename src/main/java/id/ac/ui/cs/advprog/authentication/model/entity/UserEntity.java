@@ -1,13 +1,14 @@
 package id.ac.ui.cs.advprog.authentication.model.entity;
 
 import id.ac.ui.cs.advprog.authentication.enums.GenderEnum;
+
 import jakarta.persistence.*;
 import lombok.Getter;
 
 import java.util.UUID;
 
 @Entity
-@Table(name = "user")
+@Table(name = "user_app")
 @Getter
 public class UserEntity {
 
@@ -113,10 +114,7 @@ public class UserEntity {
     if (phone == null || phone.isEmpty())
       throw new IllegalArgumentException("Phone is Empty");
 
-    if (phone.length() < 10)
-      throw new IllegalArgumentException("Phone is not valid");
-
-    if (!phone.matches("[0-9]+"))
+    if (phone.length() < 8)
       throw new IllegalArgumentException("Phone is not valid");
   }
 
