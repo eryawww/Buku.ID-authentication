@@ -4,56 +4,127 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import id.ac.ui.cs.advprog.authentication.enums.GenderEnum;
+import id.ac.ui.cs.advprog.authentication.model.builder.UserBuilder;
+import id.ac.ui.cs.advprog.authentication.model.entity.UserEntity;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
-/*
-    Focus on the fact that parameter won't change
- */
+import java.util.UUID;
+
 public class UserTest {
-  UserBuilder builder = new UserBuilder();
-  User USER1 = null;
-  User USER2 = null;
+  UserBuilder userBuilder = new UserBuilder();
+  UserEntity user = null;
+  String randomUUID = UUID.randomUUID().toString();
 
   @BeforeEach
   void setUp() {
-    USER1 = builder.setFullname("Andi")
+
+    user = userBuilder.setFullname("Andi")
         .setEmail("andi@gmail.com")
         .setPhone("081321543876")
         .setPassword("AXASW123ASXASEA")
         .setBio("An assembly competitive programmer")
-        .setGender(GenderEnum.MALE.toString())
+        .setGender("MALE")
         .build();
-    USER1.setIdUser(0);
-
-    USER2 = builder.setFullname("Nai")
-        .setEmail("nai@gmail.com")
-        .setPhone("08123456789")
-        .setPassword("ZZXX123OWKX")
-        .setBio("A market beater quant")
-        .setGender(GenderEnum.FEMALE.toString())
-        .build();
-    USER2.setIdUser(1);
+    user.setIdUser(randomUUID);
   }
 
   @Test
-  void testUser1() {
-    assertEquals("Andi", USER1.getFullname());
-    assertEquals("andi@gmail.com", USER1.getEmail());
-    assertEquals("081321543876", USER1.getPhone());
-    assertEquals("AXASW123ASXASEA", USER1.getPassword());
-    assertEquals("An assembly competitive programmer", USER1.getBio());
-    assertEquals(GenderEnum.MALE, USER1.getGender());
+  public void testUserFullName() {
+    assertEquals("Andi", user.getFullName());
   }
 
   @Test
-  void testUser2() {
-    assertEquals("Nai", USER2.getFullname());
-    assertEquals("nai@gmail.com", USER2.getEmail());
-    assertEquals("08123456789", USER2.getPhone());
-    assertEquals("ZZXX123OWKX", USER2.getPassword());
-    assertEquals("A market beater quant", USER2.getBio());
-    assertEquals(GenderEnum.FEMALE, USER2.getGender());
+  void testUserEmail() {
+    assertEquals("andi@gmail.com", user.getEmail());
   }
 
+  @Test
+  void testUserPhone() {
+    assertEquals("081321543876", user.getPhone());
+  }
+
+  @Test
+  void testUserPassword() {
+    assertEquals("AXASW123ASXASEA", user.getPassword());
+  }
+
+  @Test
+  void testUserBio() {
+    assertEquals("An assembly competitive programmer", user.getBio());
+  }
+
+  @Test
+  void testUserGender() {
+    assertEquals(GenderEnum.MALE.toString(), user.getGender());
+  }
+
+  @Test
+  void testUserId() {
+    assertEquals(randomUUID, user.getIdUser());
+  }
+
+  @Test
+  void testUserFullNameEmpty() {
+    assertThrows(IllegalArgumentException.class, () -> {
+      user.setFullName("");
+    });
+  }
+
+  @Test
+  void testUserFullNameLessThan3() {
+    assertThrows(IllegalArgumentException.class, () -> {
+      user.setFullName("An");
+    });
+  }
+
+  @Test
+  void testUserEmailEmpty() {
+    assertThrows(IllegalArgumentException.class, () -> {
+      user.setEmail("");
+    });
+  }
+
+  @Test
+  void testUserEmailNotValid() {
+    assertThrows(IllegalArgumentException.class, () -> {
+      user.setEmail("andi");
+    });
+  }
+
+  @Test
+  void testUserPhoneEmpty() {
+    assertThrows(IllegalArgumentException.class, () -> {
+      user.setPhone("");
+    });
+  }
+
+  @Test
+  void testUserPhoneNotValid() {
+    assertThrows(IllegalArgumentException.class, () -> {
+      user.setPhone("081321543");
+    });
+  }
+
+  @Test
+  void testUserPasswordEmpty() {
+    assertThrows(IllegalArgumentException.class, () -> {
+      user.setPassword("");
+    });
+  }
+
+  @Test
+  void testUserPasswordLessThan8() {
+    assertThrows(IllegalArgumentException.class, () -> {
+      user.setPassword("AXASW12");
+    });
+  }
+
+  @Test
+  void testUserGenderInvalid() {
+    assertThrows(IllegalArgumentException.class, () -> {
+      user.setGender("INVALID");
+    });
+  }
 }
