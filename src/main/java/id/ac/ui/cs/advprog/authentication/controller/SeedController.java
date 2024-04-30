@@ -6,15 +6,17 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 import id.ac.ui.cs.advprog.authentication.service.SeedService;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 @RestController
+@RequestMapping("/seed")
 public class SeedController {
   @Autowired
   private SeedService seedService;
 
-  @GetMapping("/seed-data")
+  @GetMapping("/auth")
   public ResponseEntity<String> seedMaster() {
-    seedService.seed();
-    return ResponseEntity.ok("Seeding data master completed successfully.");
+    seedService.seedAuth();
+    return ResponseEntity.ok("Seeding data auth completed successfully.");
   }
 }

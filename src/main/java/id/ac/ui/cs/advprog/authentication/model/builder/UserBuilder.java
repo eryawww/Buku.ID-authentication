@@ -35,7 +35,12 @@ public class UserBuilder {
   }
 
   public UserBuilder setGender(String gender) {
-    currentUser.setGender(gender);
+    currentUser.setGender(gender.toUpperCase());
+    return this;
+  }
+
+  public UserBuilder setRole(String role) {
+    currentUser.setRole(role.toUpperCase());
     return this;
   }
 

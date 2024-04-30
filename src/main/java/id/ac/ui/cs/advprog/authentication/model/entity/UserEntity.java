@@ -1,11 +1,12 @@
 package id.ac.ui.cs.advprog.authentication.model.entity;
 
 import id.ac.ui.cs.advprog.authentication.enums.GenderEnum;
-
+import id.ac.ui.cs.advprog.authentication.enums.RoleEnum;
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.Setter;
 
-import java.util.UUID;
+import java.util.regex.Pattern;
 
 @Entity
 @Table(name = "user_app")
@@ -13,6 +14,7 @@ import java.util.UUID;
 public class UserEntity {
 
   @Id
+  @Setter
   @Column(name = "id_user", nullable = false, unique = true)
   @GeneratedValue(strategy = GenerationType.UUID)
   private String idUser;
@@ -23,115 +25,94 @@ public class UserEntity {
   @Column(name = "email", nullable = false, unique = true, length = 100)
   private String email;
 
-  @Column(name = "phone", nullable = false, length = 17)
+  @Column(name = "phone", nullable = false, length = 16)
   private String phone;
 
   @Column(name = "password", nullable = false, length = 100)
   private String password;
 
+  @Setter
   @Column(name = "bio")
   private String bio;
 
   @Column(name = "gender", nullable = false)
   private String gender;
 
-  public UserEntity() {
-    this.idUser = UUID.randomUUID().toString();
-  }
-
-  public void setIdUser(String idUser) {
-    this.idUser = idUser;
-  }
+  @Column(name = "role", nullable = false)
+  private String role;
 
   public void setFullName(String fullName) throws IllegalArgumentException {
-    try {
-      checkFullName(fullName);
-      this.fullName = fullName;
-    } catch (IllegalArgumentException e) {
-      throw e;
-    }
-  }
-
-  public void setEmail(String email) throws IllegalArgumentException {
-    try {
-      checkEmail(email);
-      this.email = email;
-    } catch (IllegalArgumentException e) {
-      throw e;
-    }
-  }
-
-  public void setPhone(String phone) throws IllegalArgumentException {
-    try {
-      checkPhone(phone);
-      this.phone = phone;
-    } catch (IllegalArgumentException e) {
-      throw e;
-    }
-  }
-
-  public void setPassword(String password) throws IllegalArgumentException {
-    try {
-      checkPassword(password);
-      this.password = password;
-    } catch (IllegalArgumentException e) {
-      throw e;
-    }
-  }
-
-  public void setBio(String bio) {
-    this.bio = bio;
-  }
-
-  public void setGender(String gender) throws IllegalArgumentException {
-    try {
-      checkGender(gender);
-      this.gender = gender;
-    } catch (IllegalArgumentException e) {
-      throw e;
-    }
-  }
-
-  private void checkFullName(String fullName) {
-    if (fullName == null || fullName.isEmpty())
+    if (fullName == null || fullName.isEmpty()) {
       throw new IllegalArgumentException("FullName is Empty");
+    }
 
     if (fullName.length() < 3) {
       throw new IllegalArgumentException("FullName is not valid");
     }
+
+    this.fullName = fullName;
   }
 
-  private void checkEmail(String email) {
-    if (email == null || email.isEmpty())
+  public void setEmail(String email) throws IllegalArgumentException {
+    if (email == null || email.isEmpty()) {
       throw new IllegalArgumentException("Email is Empty");
+    }
 
-    if (!email.contains("@"))
+    if (!Pattern.compile("\\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Z|a-z]{2,7}\\b").matcher(email).matches()) {
       throw new IllegalArgumentException("Email is not valid");
+    }
 
+    this.email = email;
   }
 
-  public void checkPhone(String phone) {
-    if (phone == null || phone.isEmpty())
+  public void setPhone(String phone) throws IllegalArgumentException {
+    if (phone == null || phone.isEmpty()) {
       throw new IllegalArgumentException("Phone is Empty");
+    }
 
-    if (phone.length() < 8)
+    if (!Pattern.compile("^\\+?[0-9]{8,15}$").matcher(phone).matches()) {
       throw new IllegalArgumentException("Phone is not valid");
+    }
+
+    this.phone = phone;
   }
 
-  public static void checkPassword(String password) {
-    if (password == null || password.isEmpty())
+  public void setPassword(String password) throws IllegalArgumentException {
+    if (password == null) {
       throw new IllegalArgumentException("Password is Null");
+    }
 
-    if (password.length() < 8) {
+    if (!Pattern.compile("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}$")
+        .matcher(password)
+        .matches()) {
       throw new IllegalArgumentException("Password is not valid");
     }
+
+    this.password = password;
   }
 
-  private void checkGender(String gender) {
-    if (gender == null || gender.isEmpty())
-      throw new IllegalArgumentException("Email is Empty");
+  public void setGender(String gender) throws IllegalArgumentException {
+    if (gender == null) {
+      throw new IllegalArgumentException("Gender is Empty");
+    }
 
-    if (!GenderEnum.contains(gender))
+    if (!GenderEnum.contains(gender)) {
       throw new IllegalArgumentException("Gender is not valid");
+    }
+
+    this.gender = gender;
+  }
+
+  public void setRole(String role) throws IllegalArgumentException {
+
+    if (role == null) {
+      throw new IllegalArgumentException("Role is Empty");
+    }
+
+    if (!RoleEnum.contains(role)) {
+      throw new IllegalArgumentException("Role is not valid");
+    }
+
+    this.role = role;
   }
 }

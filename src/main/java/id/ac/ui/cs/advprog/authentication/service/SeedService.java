@@ -18,7 +18,7 @@ public class SeedService {
   private final String[] GENDER = { "MALE", "FEMALE", "OTHER" };
   private static final int NUMBER_OF_USER = 20;
 
-  public void seed() {
+  public void seedAuth() {
     @SuppressWarnings("deprecation")
     Faker faker = new Faker(new Locale("id_ID"));
 
@@ -37,6 +37,7 @@ public class SeedService {
           .setPassword(password)
           .setBio(bio)
           .setGender(gender)
+          .setRole("USER")
           .build();
       userRepository.save(user);
     }
