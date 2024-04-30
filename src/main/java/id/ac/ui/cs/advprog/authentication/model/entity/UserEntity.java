@@ -9,7 +9,7 @@ import lombok.Setter;
 import java.util.regex.Pattern;
 
 @Entity
-@Table(name = "user_app")
+@Table(name = "users")
 @Getter
 public class UserEntity {
 
