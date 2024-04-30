@@ -31,7 +31,11 @@ public class AuthenticationService {
     UserEntity user = userBuilder
         .setFullName(input.getFullName())
         .setEmail(input.getEmail())
-        .setPassword(passwordEncoder.encode(input.getPassword()))
+        .setPassword(passwordEncoder.encode(input.getPassword())) //TODO
+        .setRole("USER")
+        .setGender("OTHER")
+        .setPhone("1234567890")
+        .setBio("YUHUU")
         .build();
 
     return userRepository.save(user);
