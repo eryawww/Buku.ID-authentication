@@ -1,11 +1,12 @@
-package id.ac.ui.cs.advprog.authentication.controller;
+package id.ac.ui.cs.advprog.authentication.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-
-import id.ac.ui.cs.advprog.authentication.service.SeedService;
 import org.springframework.web.bind.annotation.RestController;
+
+import id.ac.ui.cs.advprog.authentication.services.SeedService;
+
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @RestController

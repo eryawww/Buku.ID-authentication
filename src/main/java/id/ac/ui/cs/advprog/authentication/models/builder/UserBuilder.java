@@ -1,8 +1,8 @@
-package id.ac.ui.cs.advprog.authentication.model.builder;
+package id.ac.ui.cs.advprog.authentication.models.builder;
 
 import java.security.InvalidParameterException;
 
-import id.ac.ui.cs.advprog.authentication.model.entity.UserEntity;
+import id.ac.ui.cs.advprog.authentication.models.entity.UserEntity;
 import lombok.Getter;
 
 @Getter
