@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 
 import id.ac.ui.cs.advprog.authentication.enums.GenderEnum;
 import id.ac.ui.cs.advprog.authentication.models.builder.UserBuilder;
-import id.ac.ui.cs.advprog.authentication.models.entity.UserEntity;
+import id.ac.ui.cs.advprog.authentication.models.entities.UserEntity;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;

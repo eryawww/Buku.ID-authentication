@@ -1,4 +1,4 @@
-package id.ac.ui.cs.advprog.authentication.models.entity;
+package id.ac.ui.cs.advprog.authentication.models.entities;
 
 import id.ac.ui.cs.advprog.authentication.enums.GenderEnum;
 import id.ac.ui.cs.advprog.authentication.enums.RoleEnum;

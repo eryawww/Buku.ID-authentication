@@ -7,8 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import id.ac.ui.cs.advprog.authentication.models.builder.UserBuilder;
-import id.ac.ui.cs.advprog.authentication.models.entity.UserEntity;
-import id.ac.ui.cs.advprog.authentication.repository.UserRepository;
+import id.ac.ui.cs.advprog.authentication.models.entities.UserEntity;
+import id.ac.ui.cs.advprog.authentication.repositories.UserRepository;
 
 @Service
 public class SeedService {
