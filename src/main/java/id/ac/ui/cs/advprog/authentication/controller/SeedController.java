@@ -16,7 +16,10 @@ public class SeedController {
 
   @GetMapping("/auth")
   public ResponseEntity<String> seedMaster() {
-    seedService.seedAuth();
+    boolean isSeeded = seedService.seedAuth();
+    if (!isSeeded) {
+      return ResponseEntity.badRequest().body("Seeding data auth failed.");
+    }
     return ResponseEntity.ok("Seeding data auth completed successfully.");
   }
 }

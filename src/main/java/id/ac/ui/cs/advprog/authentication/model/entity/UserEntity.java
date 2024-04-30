@@ -70,10 +70,11 @@ public class UserEntity {
       throw new IllegalArgumentException("Phone is Empty");
     }
 
-    if (!Pattern.compile("^\\+?[0-9]{8,15}$").matcher(phone).matches()) {
+    if (phone.length() < 10 || phone.length() > 16){
       throw new IllegalArgumentException("Phone is not valid");
     }
 
+    phone.replaceAll("[^\\d]", "");
     this.phone = phone;
   }
 
@@ -82,9 +83,7 @@ public class UserEntity {
       throw new IllegalArgumentException("Password is Null");
     }
 
-    if (!Pattern.compile("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}$")
-        .matcher(password)
-        .matches()) {
+    if (password.length() < 8) {
       throw new IllegalArgumentException("Password is not valid");
     }
 

@@ -18,7 +18,7 @@ public class SeedService {
   private final String[] GENDER = { "MALE", "FEMALE", "OTHER" };
   private static final int NUMBER_OF_USER = 20;
 
-  public void seedAuth() {
+  public boolean seedAuth() {
     @SuppressWarnings("deprecation")
     Faker faker = new Faker(new Locale("id_ID"));
 
@@ -30,7 +30,8 @@ public class SeedService {
       String bio = faker.lorem().sentence();
       String gender = GENDER[faker.random().nextInt(0, 2)];
 
-      UserEntity user = userBuilder
+      try {
+        UserEntity user = userBuilder
           .setFullName(fullName)
           .setEmail(email)
           .setPhone(phone)
@@ -39,7 +40,11 @@ public class SeedService {
           .setGender(gender)
           .setRole("USER")
           .build();
-      userRepository.save(user);
+          userRepository.save(user);
+      } catch (IllegalArgumentException e) {
+        return false;
+      }
     }
+    return true;
   }
 }
