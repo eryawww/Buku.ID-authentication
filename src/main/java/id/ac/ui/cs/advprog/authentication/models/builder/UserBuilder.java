@@ -1,8 +1,8 @@
-package id.ac.ui.cs.advprog.authentication.model.builder;
+package id.ac.ui.cs.advprog.authentication.models.builder;
 
 import java.security.InvalidParameterException;
 
-import id.ac.ui.cs.advprog.authentication.model.entity.UserEntity;
+import id.ac.ui.cs.advprog.authentication.models.entities.UserEntity;
 import lombok.Getter;
 
 @Getter
@@ -35,7 +35,12 @@ public class UserBuilder {
   }
 
   public UserBuilder setGender(String gender) {
-    currentUser.setGender(gender);
+    currentUser.setGender(gender.toUpperCase());
+    return this;
+  }
+
+  public UserBuilder setRole(String role) {
+    currentUser.setRole(role.toUpperCase());
     return this;
   }
 

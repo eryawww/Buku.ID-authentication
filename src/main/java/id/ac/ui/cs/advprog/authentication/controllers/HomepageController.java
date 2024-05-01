@@ -1,4 +1,4 @@
-package id.ac.ui.cs.advprog.authentication.controller;
+package id.ac.ui.cs.advprog.authentication.controllers;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
