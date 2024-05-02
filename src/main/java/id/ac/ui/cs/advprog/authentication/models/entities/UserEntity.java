@@ -78,8 +78,8 @@ public class UserEntity implements UserDetails {
       throw new IllegalArgumentException("Phone is not valid");
     }
 
-    phone.replaceAll("[^\\d]", "");
-    this.phone = phone;
+    String noPhone = phone.replaceAll("[^\\d]", "");
+    this.phone = noPhone ;
   }
 
   public void setPassword(String password) throws IllegalArgumentException {
