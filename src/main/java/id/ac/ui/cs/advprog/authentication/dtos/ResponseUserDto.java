@@ -6,7 +6,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class UserDto {
+public class ResponseUserDto {
   private String fullName;
   private String email;
   private String phone;
@@ -14,14 +14,15 @@ public class UserDto {
   private String gender;
   private String role;
 
-  public UserDto() {
+  public ResponseUserDto() {
   }
 
-  public UserDto(UserEntity userEntity) {
+  public ResponseUserDto(UserEntity userEntity) {
     this.fullName = userEntity.getFullName();
     this.email = userEntity.getEmail();
     this.phone = userEntity.getPhone();
     this.bio = userEntity.getBio();
+    this.gender = userEntity.getGender();
     this.role = userEntity.getRole();
   }
 }

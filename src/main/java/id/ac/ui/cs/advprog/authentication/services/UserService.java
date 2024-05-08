@@ -4,8 +4,6 @@ import id.ac.ui.cs.advprog.authentication.models.entities.UserEntity;
 import id.ac.ui.cs.advprog.authentication.repositories.UserRepository;
 
 import org.springframework.scheduling.annotation.Async;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,18 +17,21 @@ public class UserService {
     this.userRepository = userRepository;
   }
 
-  @Async("taskExecutorDefault")
-  public CompletableFuture<UserEntity> getAuthenticated() {
-    return CompletableFuture.supplyAsync(() -> {
-      Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-      return (UserEntity) authentication.getPrincipal();
-    });
-  }
-
   @Async("taskExecutorForHeavyTasks")
   public CompletableFuture<List<UserEntity>> allUsers() {
     return CompletableFuture.supplyAsync(() -> {
       return userRepository.findAll();
     });
+  }
+
+  public UserEntity editUser(UserEntity user, UserEntity newUser) {
+    user.setFullName(newUser.getFullName());
+    user.setEmail(newUser.getEmail());
+    user.setPassword(newUser.getPassword());
+    user.setGender(newUser.getGender());
+    user.setBio(newUser.getBio());
+    user.setPhone(newUser.getPhone());
+
+    return userRepository.save(user);
   }
 }
