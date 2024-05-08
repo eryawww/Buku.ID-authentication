@@ -5,6 +5,7 @@ import id.ac.ui.cs.advprog.authentication.models.builder.UserBuilder;
 import id.ac.ui.cs.advprog.authentication.dtos.ResponseUserDto;
 import id.ac.ui.cs.advprog.authentication.models.entities.UserEntity;
 import id.ac.ui.cs.advprog.authentication.services.UserService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -37,13 +38,16 @@ public class UserController {
   }
 
   @PostMapping("/edit")
-  public ResponseEntity<UserEntity> editUser(@RequestBody RegisterUserDto input) {
+  public CompletableFuture<ResponseEntity<ResponseUserDto>> editUser(@RequestBody RegisterUserDto input) {
     Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
     UserEntity currentUser = (UserEntity) authentication.getPrincipal();
     UserEntity newUser = userBuilder.fromRegisterUserDTO(input, passwordEncoder).build();
-    currentUser = userService.editUser(currentUser, newUser);
 
-    return ResponseEntity.ok(currentUser);
+    return userService.editUser(currentUser, newUser)
+            .thenApply(updatedUser -> ResponseEntity.ok(new ResponseUserDto(updatedUser)))
+            .exceptionally(ex -> {
+              return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ResponseUserDto());
+            });
   }
 
   @GetMapping("/all")

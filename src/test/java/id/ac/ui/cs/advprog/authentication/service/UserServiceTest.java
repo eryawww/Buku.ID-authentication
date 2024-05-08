@@ -54,7 +54,7 @@ public class UserServiceTest {
         when(userRepository.save(any(UserEntity.class))).thenReturn(newUserDetails);
 
         // Act
-        UserEntity updatedUser = userService.editUser(existingUser, newUserDetails);
+        UserEntity updatedUser = userService.editUser(existingUser, newUserDetails).join();
 
         // Assert
         verify(userRepository).save(existingUser); // Ensure this is the object being passed
