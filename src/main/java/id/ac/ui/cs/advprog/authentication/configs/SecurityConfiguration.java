@@ -28,8 +28,10 @@ public class SecurityConfiguration {
         .disable())
         .authorizeHttpRequests(requests -> requests
             .requestMatchers("/").permitAll()
+            .requestMatchers("/seed/**").permitAll()
             .requestMatchers("/api/auth/**").permitAll()
             .requestMatchers("/api/user/**").permitAll()
+            .requestMatchers("/actuator/**").permitAll()
             .anyRequest()
             .authenticated())
         .sessionManagement(management -> management

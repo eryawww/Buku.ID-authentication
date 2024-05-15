@@ -18,7 +18,7 @@ public class SeedService {
   private UserRepository userRepository;
   private final UserBuilder userBuilder = new UserBuilder();
   private final String[] GENDER = { "MALE", "FEMALE", "OTHER" };
-  private static final int NUMBER_OF_USER = 20;
+  private static final int NUMBER_OF_USER = 10_000;
 
   @Async("taskExecutorDefault")
   public CompletableFuture<Boolean> seedAuth() {
