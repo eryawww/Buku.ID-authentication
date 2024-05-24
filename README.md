@@ -40,6 +40,8 @@ Responsible for this service are [Eryawan Presma Yulianrifat](https://github.com
 
 Access the service here: [Buku.ID-authentication Deployment](http://34.105.33.26)
 
+## Component Diagram
+![](src/main/resources/static/images/component-diagram.drawio.png)
 ## Code Diagram
 ### Code Diagram
 ![](src/main/resources/static/images/code-diagram-auth.png)
