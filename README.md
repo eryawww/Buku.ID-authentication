@@ -40,6 +40,12 @@ Responsible for this service are [Eryawan Presma Yulianrifat](https://github.com
 
 Access the service here: [Buku.ID-authentication Deployment](http://34.105.33.26)
 
+## Code Diagram
+### Code Diagram
+![](src/main/resources/static/images/code-diagram-auth.png)
+### Code Diagram Dependency
+![](src/main/resources/static/images/authentication.png)
+
 
 --------------------------------------------------------------------------------------------
 *© Kelompok A7, Fakultas Ilmu Komputer, Universitas Indonesia - 2023/2024*
