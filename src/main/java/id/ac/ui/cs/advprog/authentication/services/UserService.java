@@ -23,7 +23,8 @@ public class UserService {
       return userRepository.findAll();
     });
   }
-  @Async("taskExecutorForHeavyTasks")
+
+  @Async()
   public CompletableFuture<UserEntity> editUser(UserEntity user, UserEntity newUser) {
     return CompletableFuture.supplyAsync(() -> {
       user.setFullName(newUser.getFullName());
