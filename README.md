@@ -44,6 +44,7 @@ Access the service here: [Buku.ID-authentication Deployment](http://34.105.33.26
 ![](src/main/resources/static/images/component-diagram.drawio.png)
 ## Code Diagram
 ### Code Diagram
+![](src/main/resources/static/images/auth-method-code-diagram.png)
 ![](src/main/resources/static/images/code-diagram-auth.png)
 ### Code Diagram Dependency
 ![](src/main/resources/static/images/authentication.png)
