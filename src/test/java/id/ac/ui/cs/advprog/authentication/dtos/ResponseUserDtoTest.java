@@ -5,10 +5,10 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class ResponseUserDtoTest {
+class ResponseUserDtoTest {
 
     @Test
-    public void testDefaultConstructorAndSetters() {
+    void testDefaultConstructorAndSetters() {
         String expectedFullName = "Jane Doe";
         String expectedEmail = "jane.doe@example.com";
         String expectedPhone = "0987654321";
@@ -33,7 +33,7 @@ public class ResponseUserDtoTest {
     }
 
     @Test
-    public void testConstructorWithUserEntity() {
+    void testConstructorWithUserEntity() {
         // Given
         UserEntity userEntity = new UserEntity();
         userEntity.setFullName("John Doe");

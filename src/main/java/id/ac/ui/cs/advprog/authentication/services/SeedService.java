@@ -1,7 +1,6 @@
 package id.ac.ui.cs.advprog.authentication.services;
 
 import net.datafaker.Faker;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
@@ -14,11 +13,15 @@ import java.util.concurrent.CompletableFuture;
 
 @Service
 public class SeedService {
-  @Autowired
-  private UserRepository userRepository;
-  private final UserBuilder userBuilder = new UserBuilder();
+  private final UserRepository userRepository;
   private final String[] GENDER = { "MALE", "FEMALE", "OTHER" };
   public static final int NUMBER_OF_USER = 10_000;
+  private final UserBuilder userBuilder;
+
+  public SeedService(UserRepository userRepository) {
+    this.userRepository = userRepository;
+    this.userBuilder = new UserBuilder();
+  }
 
   @Async("taskExecutorDefault")
   public CompletableFuture<Boolean> seedAuth() {

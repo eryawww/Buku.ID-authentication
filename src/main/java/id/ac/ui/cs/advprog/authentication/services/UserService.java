@@ -19,9 +19,7 @@ public class UserService {
 
   @Async("taskExecutorForHeavyTasks")
   public CompletableFuture<List<UserEntity>> allUsers() {
-    return CompletableFuture.supplyAsync(() -> {
-      return userRepository.findAll();
-    });
+    return CompletableFuture.supplyAsync(userRepository::findAll);
   }
 
   @Async()

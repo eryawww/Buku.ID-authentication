@@ -34,36 +34,35 @@ repositories {
     mavenCentral()
 }
 
+var jsonwebtokenVersion = "0.11.5"
+var datafakerVersion = "1.5.0"
+
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter-web")
-    compileOnly("org.projectlombok:lombok")
-    annotationProcessor("org.projectlombok:lombok")
-    developmentOnly("org.springframework.boot:spring-boot-devtools")
-    annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
-    // test
-    testImplementation("org.springframework.boot:spring-boot-starter-test")
-    testImplementation("com.h2database:h2")
-    // template
     implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
-    // jpa
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
-    runtimeOnly("org.postgresql:postgresql")
-    // seed data
-    implementation("net.datafaker:datafaker:1.5.0")
-    // security
     implementation("org.springframework.security:spring-security-core")
     implementation("org.springframework.security:spring-security-web")
     implementation("org.springframework.boot:spring-boot-starter-security")
-    testImplementation("org.springframework.boot:spring-boot-starter-test")
-    testImplementation("org.springframework.security:spring-security-test")
-    // jwt
-    implementation("io.jsonwebtoken:jjwt-api:0.11.5")
-    implementation("io.jsonwebtoken:jjwt-impl:0.11.5")
-    implementation("io.jsonwebtoken:jjwt-jackson:0.11.5")
-    // monitoring
+    implementation("io.jsonwebtoken:jjwt-api:$jsonwebtokenVersion")
+    implementation("io.jsonwebtoken:jjwt-impl:$jsonwebtokenVersion")
+    implementation("io.jsonwebtoken:jjwt-jackson:$jsonwebtokenVersion")
+    implementation("net.datafaker:datafaker:$datafakerVersion")
     implementation("io.micrometer:micrometer-registry-prometheus")
-    // actuator
     implementation("org.springframework.boot:spring-boot-starter-actuator")
+
+    testImplementation("org.springframework.security:spring-security-test")
+    testImplementation("org.springframework.boot:spring-boot-starter-test")
+    testImplementation("com.h2database:h2")
+
+    compileOnly("org.projectlombok:lombok")
+
+    runtimeOnly("org.postgresql:postgresql")
+    
+    developmentOnly("org.springframework.boot:spring-boot-devtools")
+
+    annotationProcessor("org.projectlombok:lombok")
+    annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
 }
 
 tasks.register<Test>("unitTest") {

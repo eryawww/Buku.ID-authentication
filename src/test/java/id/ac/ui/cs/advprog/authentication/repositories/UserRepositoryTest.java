@@ -14,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @DataJpaTest
-public class UserRepositoryTest {
+class UserRepositoryTest {
   @Autowired
   private UserRepository userRepository;
 
@@ -24,7 +24,7 @@ public class UserRepositoryTest {
   private final UserBuilder userBuilder = new UserBuilder();
 
   @BeforeEach
-  public void setUp() {
+  void setUp() {
     UserEntity user = userBuilder.setFullName("Andi")
         .setEmail("andi@gmail.com")
         .setPhone("081321543876")

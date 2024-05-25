@@ -18,12 +18,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.hamcrest.Matchers.is;
 
-public class GlobalExceptionHandlerTest {
+class GlobalExceptionHandlerTest {
 
     private MockMvc mockMvc;
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         MockitoAnnotations.openMocks(this);
         mockMvc = MockMvcBuilders
             .standaloneSetup(new TestController())
@@ -32,7 +32,7 @@ public class GlobalExceptionHandlerTest {
     }
 
     @Test
-    public void testHandleBadCredentialsException() throws Exception {
+    void testHandleBadCredentialsException() throws Exception {
         mockMvc.perform(get("/test/badCredentials"))
             .andExpect(status().isUnauthorized())
             .andExpect(jsonPath("$.status", is(401)))
@@ -41,43 +41,43 @@ public class GlobalExceptionHandlerTest {
     }
 
     @Test
-    public void testHandleAccountStatusException() throws Exception {
+    void testHandleAccountStatusException() throws Exception {
         mockMvc.perform(get("/test/accountStatus"))
             .andExpect(status().isForbidden())
             .andExpect(jsonPath("$.status", is(403)))
             .andExpect(jsonPath("$.detail", is("Account status issue")))
-            .andExpect(jsonPath("$.description", is("The account is locked")));
+            .andExpect(jsonPath("$.description", is("Your account is disabled. Please contact the administrator for further information.")));
     }
 
     @Test
-    public void testHandleAccessDeniedException() throws Exception {
+    void testHandleAccessDeniedException() throws Exception {
         mockMvc.perform(get("/test/accessDenied"))
             .andExpect(status().isForbidden())
             .andExpect(jsonPath("$.status", is(403)))
             .andExpect(jsonPath("$.detail", is("Access denied")))
-            .andExpect(jsonPath("$.description", is("You are not authorized to access this resource")));
+            .andExpect(jsonPath("$.description", is("You are not authorized to access this resource.")));
     }
 
     @Test
-    public void testHandleSignatureException() throws Exception {
+    void testHandleSignatureException() throws Exception {
         mockMvc.perform(get("/test/signature"))
             .andExpect(status().isForbidden())
             .andExpect(jsonPath("$.status", is(403)))
             .andExpect(jsonPath("$.detail", is("Invalid signature")))
-            .andExpect(jsonPath("$.description", is("The JWT signature is invalid")));
+            .andExpect(jsonPath("$.description", is("The JWT signature is invalid.")));
     }
 
     @Test
-    public void testHandleExpiredJwtException() throws Exception {
+    void testHandleExpiredJwtException() throws Exception {
         mockMvc.perform(get("/test/expiredJwt"))
             .andExpect(status().isForbidden())
             .andExpect(jsonPath("$.status", is(403)))
             .andExpect(jsonPath("$.detail", is("Token expired")))
-            .andExpect(jsonPath("$.description", is("The JWT token has expired")));
+            .andExpect(jsonPath("$.description", is("The JWT token has expired. Please login again.")));
     }
 
     @Test
-    public void testHandleUnknownException() throws Exception {
+    void testHandleUnknownException() throws Exception {
         mockMvc.perform(get("/test/unknown"))
             .andExpect(status().isInternalServerError())
             .andExpect(jsonPath("$.status", is(500)))

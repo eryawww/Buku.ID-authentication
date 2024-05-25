@@ -1,7 +1,5 @@
 package id.ac.ui.cs.advprog.authentication.controllers;
 
-import id.ac.ui.cs.advprog.authentication.dtos.RegisterUserDto;
-import id.ac.ui.cs.advprog.authentication.dtos.ResponseUserDto;
 import id.ac.ui.cs.advprog.authentication.models.entities.UserEntity;
 import id.ac.ui.cs.advprog.authentication.services.UserService;
 import org.junit.jupiter.api.BeforeEach;
@@ -9,7 +7,6 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.http.MediaType;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -21,15 +18,13 @@ import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.hamcrest.Matchers.*;
 
-public class UserControllerTest {
+class UserControllerTest {
 
     private MockMvc mockMvc;
 
@@ -49,7 +44,7 @@ public class UserControllerTest {
     private UserController userController;
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         MockitoAnnotations.openMocks(this);
         mockMvc = MockMvcBuilders.standaloneSetup(userController).build();
 
@@ -58,7 +53,7 @@ public class UserControllerTest {
     }
 
     @Test
-    public void testAuthenticatedUser() throws Exception {
+    void testAuthenticatedUser() throws Exception {
         UserEntity userEntity = new UserEntity();
         userEntity.setFullName("Erz ZX");
         userEntity.setEmail("erz@example.com");
@@ -72,7 +67,7 @@ public class UserControllerTest {
     }
 
     @Test
-    public void testAllUsers() throws Exception {
+    void testAllUsers() throws Exception {
         UserEntity userEntity = new UserEntity();
         userEntity.setFullName("John Doe");
         userEntity.setEmail("john.doe@example.com");
