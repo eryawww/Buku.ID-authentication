@@ -5,6 +5,7 @@ import id.ac.ui.cs.advprog.authentication.models.builder.UserBuilder;
 import id.ac.ui.cs.advprog.authentication.dtos.ResponseUserDto;
 import id.ac.ui.cs.advprog.authentication.models.entities.UserEntity;
 import id.ac.ui.cs.advprog.authentication.services.UserService;
+import org.apache.catalina.User;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -13,6 +14,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
@@ -46,6 +48,17 @@ public class UserController {
     return userService.editUser(currentUser, newUser)
         .thenApply(updatedUser -> ResponseEntity.ok(new ResponseUserDto(updatedUser)))
         .exceptionally(ex -> ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ResponseUserDto()));
+  }
+
+  @GetMapping("/get/{email}")
+  public ResponseEntity<ResponseUserDto> getUserEmail(@PathVariable("email") String email) {
+    Optional<UserEntity> currentUser = userService.getUserByEmail(email);
+    if (currentUser.isPresent()) {
+      ResponseUserDto userDto = new ResponseUserDto(currentUser.get());
+      return ResponseEntity.ok(userDto);
+    }else{
+      return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ResponseUserDto());
+    }
   }
 
   @GetMapping("/all")
