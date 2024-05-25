@@ -1,8 +1,7 @@
-package id.ac.ui.cs.advprog.authentication.service;
+package id.ac.ui.cs.advprog.authentication.services;
 
 import id.ac.ui.cs.advprog.authentication.models.entities.UserEntity;
 import id.ac.ui.cs.advprog.authentication.repositories.UserRepository;
-import id.ac.ui.cs.advprog.authentication.services.UserService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
