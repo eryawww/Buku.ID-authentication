@@ -17,7 +17,7 @@ public class GlobalExceptionHandler {
     ProblemDetail errorDetail = null;
 
     // TODO send this stack trace to an obser vability tool
-    exception.printStackTrace();
+    // exception.printStackTrace();
 
     if (exception instanceof BadCredentialsException) {
       errorDetail = ProblemDetail.forStatusAndDetail(HttpStatusCode.valueOf(401), exception.getMessage());
