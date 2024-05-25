@@ -3,6 +3,7 @@ package id.ac.ui.cs.advprog.authentication.controllers;
 import id.ac.ui.cs.advprog.authentication.models.entities.UserEntity;
 import id.ac.ui.cs.advprog.authentication.dtos.LoginUserDto;
 import id.ac.ui.cs.advprog.authentication.dtos.RegisterUserDto;
+import id.ac.ui.cs.advprog.authentication.dtos.ResponseUserDto;
 import id.ac.ui.cs.advprog.authentication.dtos.LoginResponse;
 import id.ac.ui.cs.advprog.authentication.services.AuthenticationService;
 import id.ac.ui.cs.advprog.authentication.services.JwtService;
@@ -25,10 +26,10 @@ public class AuthenticationController {
   }
 
   @PostMapping("/signup")
-  public ResponseEntity<UserEntity> register(@RequestBody RegisterUserDto registerUserDto) {
+  public ResponseEntity<ResponseUserDto> register(@RequestBody RegisterUserDto registerUserDto) {
     UserEntity registeredUser = authenticationService.signup(registerUserDto);
-
-    return ResponseEntity.ok(registeredUser);
+    ResponseUserDto responseUser = new ResponseUserDto(registeredUser);
+    return ResponseEntity.ok(responseUser);
   }
 
   @PostMapping("/login")
