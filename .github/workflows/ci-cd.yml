@@ -59,6 +59,7 @@ jobs:
           cache: "gradle"
       - name: Make gradlew executable
         run: chmod +x ./gradlew
+
       - name: Cache Gradle dependencies
         uses: actions/cache@v4
         with:
@@ -131,6 +132,7 @@ jobs:
           IMAGE_TAG=${{ secrets.IMAGE_TAG }}
           EOF
 
+      - name: Deploy to GCP
         run: |
           scp -o StrictHostKeyChecking=no -i ssh-key.pem -r ./.env ./docker-compose.yml ./monitoring ${{ secrets.GCP_USERNAME }}@${{ secrets.GCP_STATIC_IP }}:~/
           ssh -o StrictHostKeyChecking=no -i ssh-key.pem ${{ secrets.GCP_USERNAME }}@${{ secrets.GCP_STATIC_IP }} "
