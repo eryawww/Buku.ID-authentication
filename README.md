@@ -18,7 +18,7 @@ Buku.ID-authentication is the component of the Buku.ID e-commerce platform, focu
 -  [Tegar Wahyu Khisbulloh](https://github.com/tegar-wahyu) `(2206082032)`<br>
 -  [Vinka Alrezky As](https://github.com/vinkakniv) `(2206820200)`<br>
 
-Responsible for this service are [Eryawan Presma Yulianrifat](https://github.com/eryawww)
+Responsible for this service are [Eryawan Presma Yulianrifat](https://github.com/eryawww) and [Restu Ahmad Ar Ridho](https://github.com/restuaar)
 
 ## Features
 
@@ -39,6 +39,15 @@ Responsible for this service are [Eryawan Presma Yulianrifat](https://github.com
 ## Deployment 🚀
 
 Access the service here: [Buku.ID-authentication Deployment](http://34.105.33.26)
+
+## Component Diagram
+![](src/main/resources/static/images/component-diagram.drawio.png)
+## Code Diagram
+### Code Diagram
+![](src/main/resources/static/images/auth-method-code-diagram.png)
+![](src/main/resources/static/images/code-diagram-auth.png)
+### Code Diagram Dependency
+![](src/main/resources/static/images/authentication.png)
 
 
 --------------------------------------------------------------------------------------------
