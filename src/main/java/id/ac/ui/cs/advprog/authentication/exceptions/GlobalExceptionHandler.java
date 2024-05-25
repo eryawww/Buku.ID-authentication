@@ -36,7 +36,7 @@ public class GlobalExceptionHandler {
 
     if (exception instanceof SignatureException) {
       errorDetail = ProblemDetail.forStatusAndDetail(HttpStatusCode.valueOf(403), exception.getMessage());
-      message = "The JWT token is invalid.";
+      message = "The JWT signature is invalid.";
     }
 
     if (exception instanceof ExpiredJwtException) {

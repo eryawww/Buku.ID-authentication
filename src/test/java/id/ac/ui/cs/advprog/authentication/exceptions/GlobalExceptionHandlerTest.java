@@ -46,7 +46,7 @@ class GlobalExceptionHandlerTest {
             .andExpect(status().isForbidden())
             .andExpect(jsonPath("$.status", is(403)))
             .andExpect(jsonPath("$.detail", is("Account status issue")))
-            .andExpect(jsonPath("$.description", is("The account is locked")));
+            .andExpect(jsonPath("$.description", is("Your account is disabled. Please contact the administrator for further information.")));
     }
 
     @Test
@@ -55,7 +55,7 @@ class GlobalExceptionHandlerTest {
             .andExpect(status().isForbidden())
             .andExpect(jsonPath("$.status", is(403)))
             .andExpect(jsonPath("$.detail", is("Access denied")))
-            .andExpect(jsonPath("$.description", is("You are not authorized to access this resource")));
+            .andExpect(jsonPath("$.description", is("You are not authorized to access this resource.")));
     }
 
     @Test
@@ -64,7 +64,7 @@ class GlobalExceptionHandlerTest {
             .andExpect(status().isForbidden())
             .andExpect(jsonPath("$.status", is(403)))
             .andExpect(jsonPath("$.detail", is("Invalid signature")))
-            .andExpect(jsonPath("$.description", is("The JWT signature is invalid")));
+            .andExpect(jsonPath("$.description", is("The JWT signature is invalid.")));
     }
 
     @Test
@@ -73,7 +73,7 @@ class GlobalExceptionHandlerTest {
             .andExpect(status().isForbidden())
             .andExpect(jsonPath("$.status", is(403)))
             .andExpect(jsonPath("$.detail", is("Token expired")))
-            .andExpect(jsonPath("$.description", is("The JWT token has expired")));
+            .andExpect(jsonPath("$.description", is("The JWT token has expired. Please login again.")));
     }
 
     @Test
