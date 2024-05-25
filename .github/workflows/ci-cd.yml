@@ -33,7 +33,8 @@ jobs:
       - name: Make gradlew executable
         run: chmod +x ./gradlew
       - name: Build with Gradle
-        run: ./gradlew assemble
+        run: |
+          ./gradlew assemble
       # (Optional) Add steps for running tests and generating reports
 
       - name: Upload Artifact
@@ -59,7 +60,6 @@ jobs:
           cache: "gradle"
       - name: Make gradlew executable
         run: chmod +x ./gradlew
-
       - name: Cache Gradle dependencies
         uses: actions/cache@v4
         with:
@@ -70,16 +70,10 @@ jobs:
 
       - name: Test with Gradle
         run: |
-          ./gradlew check --info --stacktrace --warning-mode=all
-          ./gradlew test --warning-mode=all
-          ./gradlew jacocoTestReport --warning-mode=all
-
-      - name: Upload Test Report
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: gradle-test-report
-          path: build/reports/tests/test/
+          ./gradlew check --info --stacktrace
+          ./gradlew test
+          ./gradlew jacocoTestReport
+      # (Optional) Add steps for generating coverage report and other post-test tasks
 
   publish:
     name: Publish Docker Image
@@ -123,10 +117,9 @@ jobs:
 
       - name: update permission
         run: chmod 400 ssh-key.pem
-
       - name: Deploy to GCP
         run: |
-          scp -o StrictHostKeyChecking=no -i ssh-key.pem -r ./docker-compose.yml ./monitoring ${{ secrets.GCP_USERNAME }}@${{ secrets.GCP_STATIC_IP }}:~/
           ssh -o StrictHostKeyChecking=no -i ssh-key.pem ${{ secrets.GCP_USERNAME }}@${{ secrets.GCP_STATIC_IP }} "
-            sudo docker image rm -f ${{ secrets.REGISTRY_USER }}/${{ secrets.IMAGE_NAME }}:${{ secrets.IMAGE_TAG }};
-            sudo docker compose up -d"
+            sudo docker container rm -f ${{ secrets.CONTAINER_NAME }} || true &&
+            sudo docker image rm -f ${{ secrets.REGISTRY_USER }}/${{ secrets.IMAGE_NAME }}:${{ secrets.IMAGE_TAG }} || true &&
+            sudo docker run --name ${{ secrets.CONTAINER_NAME }} -d -p 80:8080 ${{ secrets.REGISTRY_USER }}/${{ secrets.IMAGE_NAME }}:${{ secrets.IMAGE_TAG }}"
