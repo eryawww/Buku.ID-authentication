@@ -96,7 +96,7 @@ jobs:
         run: export DOCKER_BUILDKIT=1
       - name: Build Docker Image
         run: |
-          docker build --build-arg PRODUCTION=${{ secrets.PRODUCTION }} JWT_SECRET_KEY=${{ secrets.JWT_SECRET_KEY }} JWT_EXPIRE_DURATION=${{ secrets.JWT_EXPIRE_DURATION }} --build-arg JDBC_DATABASE_PASSWORD=${{ secrets.JDBC_DATABASE_PASSWORD }} --build-arg JDBC_DATABASE_URL=${{ secrets.JDBC_DATABASE_URL }} --build-arg JDBC_DATABASE_USERNAME=${{ secrets.JDBC_DATABASE_USERNAME }} -t ${{ secrets.REGISTRY_USER }}/${{ secrets.IMAGE_NAME }}:${{ secrets.IMAGE_TAG }} .
+          docker build --build-arg PRODUCTION=${{ secrets.PRODUCTION }} --build-arg JWT_SECRET_KEY=${{ secrets.JWT_SECRET_KEY }} --build-arg JWT_EXPIRE_DURATION=${{ secrets.JWT_EXPIRE_DURATION }} --build-arg JDBC_DATABASE_PASSWORD=${{ secrets.JDBC_DATABASE_PASSWORD }} --build-arg JDBC_DATABASE_URL=${{ secrets.JDBC_DATABASE_URL }} --build-arg JDBC_DATABASE_USERNAME=${{ secrets.JDBC_DATABASE_USERNAME }} -t ${{ secrets.REGISTRY_USER }}/${{ secrets.IMAGE_NAME }}:${{ secrets.IMAGE_TAG }} .
           docker push ${{ secrets.REGISTRY_USER }}/${{ secrets.IMAGE_NAME }}:${{ secrets.IMAGE_TAG }}
 
   deploy:
