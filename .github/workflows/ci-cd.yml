@@ -111,8 +111,10 @@ jobs:
       - name: Install SSH client
         run: sudo apt-get install openssh-client
 
-      - name: create ssh key
-        run: echo "${{ secrets.SSH_KEY }}" > ssh-key.pem && cat ssh-key.pem
+      - name: Create SSH key
+        run: |
+          echo "${{ secrets.SSH_KEY }}" > ssh-key.pem
+          chmod 400 ssh-key.pem
 
       - name: Create env file
         run: |
@@ -122,15 +124,12 @@ jobs:
           IMAGE_TAG=${{ secrets.IMAGE_TAG }}
           EOF
 
-      - name: update permission for ssh
-        run: chmod 400 ssh-key.pem
-
-      - name: update permission for env file
-        run: chmod 705 .env
+      - name: Update permissions for .env file
+        run: chmod 644 .env
 
       - name: Deploy to GCP
         run: |
-          scp -o StrictHostKeyChecking=no -i ssh-key.pem -r ./.env ./docker-compose.yml ./monitoring ${{ secrets.GCP_USERNAME }}@${{ secrets.GCP_STATIC_IP }}:~/
+          scp -o StrictHostKeyChecking=no -i ssh-key.pem .env docker-compose.yml ${{ secrets.GCP_USERNAME }}@${{ secrets.GCP_STATIC_IP }}:~/
           ssh -o StrictHostKeyChecking=no -i ssh-key.pem ${{ secrets.GCP_USERNAME }}@${{ secrets.GCP_STATIC_IP }} "
             sudo docker image rm -f ${{ secrets.REGISTRY_USER }}/${{ secrets.IMAGE_NAME }}:${{ secrets.IMAGE_TAG }};
             sudo docker compose up -d"
