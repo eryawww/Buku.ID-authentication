@@ -1,8 +1,7 @@
-package id.ac.ui.cs.advprog.authentication.service;
+package id.ac.ui.cs.advprog.authentication.services;
 
 import id.ac.ui.cs.advprog.authentication.models.entities.UserEntity;
 import id.ac.ui.cs.advprog.authentication.repositories.UserRepository;
-import id.ac.ui.cs.advprog.authentication.services.UserService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -17,7 +16,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @ExtendWith(MockitoExtension.class)
-public class UserServiceTest {
+class UserServiceTest {
 
   @Mock
   private UserRepository userRepository;
@@ -26,7 +25,7 @@ public class UserServiceTest {
   private UserService userService;
 
   @Test
-  public void testAllUsers() {
+  void testAllUsers() {
     UserEntity user1 = new UserEntity();
     UserEntity user2 = new UserEntity();
     when(userRepository.findAll()).thenReturn(Arrays.asList(user1, user2));
@@ -39,7 +38,7 @@ public class UserServiceTest {
   }
 
   @Test
-  public void testEditUser() {
+  void testEditUser() {
     UserEntity existingUser = new UserEntity();
     existingUser.setFullName("John Doe");
 

@@ -1,6 +1,6 @@
 package id.ac.ui.cs.advprog.authentication.controllers;
 
-import id.ac.ui.cs.advprog.authentication.dtos.RegisterUserDto;
+import id.ac.ui.cs.advprog.authentication.dtos.EditUserDto;
 import id.ac.ui.cs.advprog.authentication.models.builder.UserBuilder;
 import id.ac.ui.cs.advprog.authentication.dtos.ResponseUserDto;
 import id.ac.ui.cs.advprog.authentication.models.entities.UserEntity;
@@ -38,16 +38,14 @@ public class UserController {
   }
 
   @PostMapping("/edit")
-  public CompletableFuture<ResponseEntity<ResponseUserDto>> editUser(@RequestBody RegisterUserDto input) {
+  public CompletableFuture<ResponseEntity<ResponseUserDto>> editUser(@RequestBody EditUserDto input) {
     Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
     UserEntity currentUser = (UserEntity) authentication.getPrincipal();
-    UserEntity newUser = userBuilder.fromRegisterUserDTO(input, passwordEncoder).build();
+    UserEntity newUser = userBuilder.fromEditUserDTO(input, passwordEncoder, currentUser).build();
 
     return userService.editUser(currentUser, newUser)
-            .thenApply(updatedUser -> ResponseEntity.ok(new ResponseUserDto(updatedUser)))
-            .exceptionally(ex -> {
-              return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ResponseUserDto());
-            });
+        .thenApply(updatedUser -> ResponseEntity.ok(new ResponseUserDto(updatedUser)))
+        .exceptionally(ex -> ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ResponseUserDto()));
   }
 
   @GetMapping("/all")
@@ -60,10 +58,8 @@ public class UserController {
     return userService.allUsers()
         .thenApply(users -> {
           List<ResponseUserDto> userDtos = users.stream()
-              .map(userEntity -> {
-                return new ResponseUserDto(userEntity);
-              })
-              .collect(Collectors.toList());
+              .map(ResponseUserDto::new)
+              .collect(Collectors.toUnmodifiableList());
           return ResponseEntity.ok(userDtos);
         })
         .exceptionally(e -> ResponseEntity.badRequest().build());

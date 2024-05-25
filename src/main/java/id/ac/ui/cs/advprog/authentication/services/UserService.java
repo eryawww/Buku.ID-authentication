@@ -19,17 +19,16 @@ public class UserService {
 
   @Async("taskExecutorForHeavyTasks")
   public CompletableFuture<List<UserEntity>> allUsers() {
-    return CompletableFuture.supplyAsync(() -> {
-      return userRepository.findAll();
-    });
+    return CompletableFuture.supplyAsync(userRepository::findAll);
   }
 
   @Async()
   public CompletableFuture<UserEntity> editUser(UserEntity user, UserEntity newUser) {
     return CompletableFuture.supplyAsync(() -> {
+      userRepository.delete(user);
+
       user.setFullName(newUser.getFullName());
       user.setEmail(newUser.getEmail());
-      user.setPassword(newUser.getPassword());
       user.setGender(newUser.getGender());
       user.setBio(newUser.getBio());
       user.setPhone(newUser.getPhone());
