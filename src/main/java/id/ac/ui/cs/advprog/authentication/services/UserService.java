@@ -27,9 +27,10 @@ public class UserService {
   @Async()
   public CompletableFuture<UserEntity> editUser(UserEntity user, UserEntity newUser) {
     return CompletableFuture.supplyAsync(() -> {
+      userRepository.delete(user);
+
       user.setFullName(newUser.getFullName());
       user.setEmail(newUser.getEmail());
-      user.setPassword(newUser.getPassword());
       user.setGender(newUser.getGender());
       user.setBio(newUser.getBio());
       user.setPhone(newUser.getPhone());

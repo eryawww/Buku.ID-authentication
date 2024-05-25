@@ -2,6 +2,7 @@ package id.ac.ui.cs.advprog.authentication.models.builder;
 
 import java.security.InvalidParameterException;
 
+import id.ac.ui.cs.advprog.authentication.dtos.EditUserDto;
 import id.ac.ui.cs.advprog.authentication.dtos.RegisterUserDto;
 import id.ac.ui.cs.advprog.authentication.models.entities.UserEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -56,6 +57,16 @@ public class UserBuilder {
     return setFullName(input.getFullName())
         .setEmail(input.getEmail())
         .setPassword(passwordEncoder.encode(input.getPassword()))
+        .setRole(input.getRole())
+        .setGender(input.getGender())
+        .setPhone(input.getPhone())
+        .setBio(input.getBio());
+  }
+
+  public UserBuilder fromEditUserDTO(EditUserDto input, PasswordEncoder passwordEncoder, UserEntity currentUser) {
+    return setFullName(input.getFullName())
+        .setEmail(input.getEmail())
+        .setPassword(passwordEncoder.encode(currentUser.getPassword()))
         .setRole(input.getRole())
         .setGender(input.getGender())
         .setPhone(input.getPhone())
