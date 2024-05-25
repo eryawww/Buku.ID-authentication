@@ -122,10 +122,11 @@ jobs:
           IMAGE_TAG=${{ secrets.IMAGE_TAG }}
           EOF
 
-      - name: update permission
-        run: |
-          chmod 400 ssh-key.pem
-          chmod 400 .env
+      - name: update permission for ssh
+        run: chmod 400 ssh-key.pem
+
+      - name: update permission for env file
+        run: chmod 705 .env
 
       - name: Deploy to GCP
         run: |
