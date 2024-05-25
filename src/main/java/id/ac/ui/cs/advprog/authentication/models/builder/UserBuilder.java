@@ -2,7 +2,9 @@ package id.ac.ui.cs.advprog.authentication.models.builder;
 
 import java.security.InvalidParameterException;
 
+import id.ac.ui.cs.advprog.authentication.dtos.RegisterUserDto;
 import id.ac.ui.cs.advprog.authentication.models.entities.UserEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import lombok.Getter;
 
 @Getter
@@ -48,6 +50,16 @@ public class UserBuilder {
     UserEntity finalUser = currentUser;
     reset();
     return finalUser;
+  }
+
+  public UserBuilder fromRegisterUserDTO(RegisterUserDto input, PasswordEncoder passwordEncoder) {
+    return setFullName(input.getFullName())
+        .setEmail(input.getEmail())
+        .setPassword(passwordEncoder.encode(input.getPassword()))
+        .setRole(input.getRole())
+        .setGender(input.getGender())
+        .setPhone(input.getPhone())
+        .setBio(input.getBio());
   }
 
   private void reset() {

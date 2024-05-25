@@ -28,16 +28,7 @@ public class AuthenticationService {
   }
 
   public UserEntity signup(RegisterUserDto input) {
-    UserEntity user = userBuilder
-        .setFullName(input.getFullName())
-        .setEmail(input.getEmail())
-        .setPassword(passwordEncoder.encode(input.getPassword())) //TODO
-        .setRole("USER")
-        .setGender("OTHER")
-        .setPhone("1234567890")
-        .setBio("YUHUU")
-        .build();
-
+    UserEntity user = userBuilder.fromRegisterUserDTO(input, passwordEncoder).build();
     return userRepository.save(user);
   }
 

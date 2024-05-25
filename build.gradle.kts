@@ -18,7 +18,10 @@ sonar {
 }
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_21
+  sourceCompatibility = JavaVersion.VERSION_21
+  toolchain {
+    languageVersion = JavaLanguageVersion.of(21)
+  }
 }
 
 configurations {
@@ -57,6 +60,10 @@ dependencies {
     implementation("io.jsonwebtoken:jjwt-api:0.11.5")
     implementation("io.jsonwebtoken:jjwt-impl:0.11.5")
     implementation("io.jsonwebtoken:jjwt-jackson:0.11.5")
+    // monitoring
+    implementation("io.micrometer:micrometer-registry-prometheus")
+    // actuator
+    implementation("org.springframework.boot:spring-boot-starter-actuator")
 }
 
 tasks.register<Test>("unitTest") {

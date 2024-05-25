@@ -1,14 +1,16 @@
 package id.ac.ui.cs.advprog.authentication.services;
 
-import java.util.Locale;
-
 import net.datafaker.Faker;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import id.ac.ui.cs.advprog.authentication.models.builder.UserBuilder;
 import id.ac.ui.cs.advprog.authentication.models.entities.UserEntity;
 import id.ac.ui.cs.advprog.authentication.repositories.UserRepository;
+
+import java.util.Locale;
+import java.util.concurrent.CompletableFuture;
 
 @Service
 public class SeedService {
@@ -16,9 +18,10 @@ public class SeedService {
   private UserRepository userRepository;
   private final UserBuilder userBuilder = new UserBuilder();
   private final String[] GENDER = { "MALE", "FEMALE", "OTHER" };
-  private static final int NUMBER_OF_USER = 20;
+  private static final int NUMBER_OF_USER = 10_000;
 
-  public boolean seedAuth() {
+  @Async("taskExecutorDefault")
+  public CompletableFuture<Boolean> seedAuth() {
     @SuppressWarnings("deprecation")
     Faker faker = new Faker(new Locale("id_ID"));
 
@@ -32,19 +35,19 @@ public class SeedService {
 
       try {
         UserEntity user = userBuilder
-          .setFullName(fullName)
-          .setEmail(email)
-          .setPhone(phone)
-          .setPassword(password)
-          .setBio(bio)
-          .setGender(gender)
-          .setRole("USER")
-          .build();
-          userRepository.save(user);
+            .setFullName(fullName)
+            .setEmail(email)
+            .setPhone(phone)
+            .setPassword(password)
+            .setBio(bio)
+            .setGender(gender)
+            .setRole("USER")
+            .build();
+        userRepository.save(user);
       } catch (IllegalArgumentException e) {
-        return false;
+        return CompletableFuture.completedFuture(false);
       }
     }
-    return true;
+    return CompletableFuture.completedFuture(true);
   }
 }
