@@ -1,11 +1,6 @@
 version: '3.7'
 
 services:
-  buku:
-    image: restuaar/authentication:authentication
-    container_name: authentication
-    ports:
-      - "80:8080"
 
   prometheus:
     image: prom/prometheus:v2.44.0
