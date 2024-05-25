@@ -20,7 +20,7 @@ import java.util.concurrent.CompletableFuture;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.*;
 
-public class SeedServiceTest {
+class SeedServiceTest {
 
     @Mock
     private UserRepository userRepository;
@@ -29,13 +29,14 @@ public class SeedServiceTest {
     private SeedService seedService;
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         MockitoAnnotations.openMocks(this);
     }
 
     @Test
-    public void testSeedAuth() throws Exception {
+    void testSeedAuth() throws Exception {
         // Given
+        @SuppressWarnings("deprecation")
         Faker faker = new Faker(new Locale("id_ID"));
         when(userRepository.save(any(UserEntity.class))).thenAnswer(invocation -> {
             UserEntity user = invocation.getArgument(0);

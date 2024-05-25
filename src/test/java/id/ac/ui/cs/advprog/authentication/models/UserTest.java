@@ -18,7 +18,7 @@ import static org.mockito.Mockito.when;
 
 import java.util.UUID;
 
-public class UserTest {
+class UserTest {
   UserBuilder userBuilder = new UserBuilder();
   UserEntity user = null;
   String randomUUID = UUID.randomUUID().toString();
@@ -40,7 +40,7 @@ public class UserTest {
   }
 
   @Test
-  public void testUserFullName() {
+  void testUserFullName() {
     assertEquals("Andi", user.getFullName());
   }
 
@@ -138,7 +138,7 @@ public class UserTest {
   }
 
   @Test
-  public void testFromRegisterUserDTO() {
+  void testFromRegisterUserDTO() {
     RegisterUserDto dto = new RegisterUserDto();
     dto.setFullName("John Doe");
     dto.setEmail("john.doe@example.com");

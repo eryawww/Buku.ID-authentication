@@ -45,9 +45,7 @@ public class UserController {
 
     return userService.editUser(currentUser, newUser)
         .thenApply(updatedUser -> ResponseEntity.ok(new ResponseUserDto(updatedUser)))
-        .exceptionally(ex -> {
-          return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ResponseUserDto());
-        });
+        .exceptionally(ex -> ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ResponseUserDto()));
   }
 
   @GetMapping("/all")
@@ -60,10 +58,8 @@ public class UserController {
     return userService.allUsers()
         .thenApply(users -> {
           List<ResponseUserDto> userDtos = users.stream()
-              .map(userEntity -> {
-                return new ResponseUserDto(userEntity);
-              })
-              .collect(Collectors.toList());
+              .map(ResponseUserDto::new)
+              .collect(Collectors.toUnmodifiableList());
           return ResponseEntity.ok(userDtos);
         })
         .exceptionally(e -> ResponseEntity.badRequest().build());

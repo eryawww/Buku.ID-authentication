@@ -18,12 +18,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.hamcrest.Matchers.is;
 
-public class GlobalExceptionHandlerTest {
+class GlobalExceptionHandlerTest {
 
     private MockMvc mockMvc;
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         MockitoAnnotations.openMocks(this);
         mockMvc = MockMvcBuilders
             .standaloneSetup(new TestController())
@@ -32,7 +32,7 @@ public class GlobalExceptionHandlerTest {
     }
 
     @Test
-    public void testHandleBadCredentialsException() throws Exception {
+    void testHandleBadCredentialsException() throws Exception {
         mockMvc.perform(get("/test/badCredentials"))
             .andExpect(status().isUnauthorized())
             .andExpect(jsonPath("$.status", is(401)))
@@ -41,7 +41,7 @@ public class GlobalExceptionHandlerTest {
     }
 
     @Test
-    public void testHandleAccountStatusException() throws Exception {
+    void testHandleAccountStatusException() throws Exception {
         mockMvc.perform(get("/test/accountStatus"))
             .andExpect(status().isForbidden())
             .andExpect(jsonPath("$.status", is(403)))
@@ -50,7 +50,7 @@ public class GlobalExceptionHandlerTest {
     }
 
     @Test
-    public void testHandleAccessDeniedException() throws Exception {
+    void testHandleAccessDeniedException() throws Exception {
         mockMvc.perform(get("/test/accessDenied"))
             .andExpect(status().isForbidden())
             .andExpect(jsonPath("$.status", is(403)))
@@ -59,7 +59,7 @@ public class GlobalExceptionHandlerTest {
     }
 
     @Test
-    public void testHandleSignatureException() throws Exception {
+    void testHandleSignatureException() throws Exception {
         mockMvc.perform(get("/test/signature"))
             .andExpect(status().isForbidden())
             .andExpect(jsonPath("$.status", is(403)))
@@ -68,7 +68,7 @@ public class GlobalExceptionHandlerTest {
     }
 
     @Test
-    public void testHandleExpiredJwtException() throws Exception {
+    void testHandleExpiredJwtException() throws Exception {
         mockMvc.perform(get("/test/expiredJwt"))
             .andExpect(status().isForbidden())
             .andExpect(jsonPath("$.status", is(403)))
@@ -77,7 +77,7 @@ public class GlobalExceptionHandlerTest {
     }
 
     @Test
-    public void testHandleUnknownException() throws Exception {
+    void testHandleUnknownException() throws Exception {
         mockMvc.perform(get("/test/unknown"))
             .andExpect(status().isInternalServerError())
             .andExpect(jsonPath("$.status", is(500)))

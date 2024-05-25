@@ -4,10 +4,10 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class LoginResponseTest {
+class LoginResponseTest {
 
     @Test
-    public void testLoginResponseGettersAndSetters() {
+    void testLoginResponseGettersAndSetters() {
         String expectedToken = "sampleToken";
         long expectedExpiresIn = 3600L;
 

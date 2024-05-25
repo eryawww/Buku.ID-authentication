@@ -15,9 +15,7 @@ public class GlobalExceptionHandler {
   @ExceptionHandler(Exception.class)
   public ProblemDetail handleSecurityException(Exception exception) {
     ProblemDetail errorDetail = null;
-
-    // TODO send this stack trace to an obser vability tool
-    // exception.printStackTrace();
+    String message = "";
 
     if (exception instanceof BadCredentialsException) {
       errorDetail = ProblemDetail.forStatusAndDetail(HttpStatusCode.valueOf(401), exception.getMessage());
@@ -28,29 +26,30 @@ public class GlobalExceptionHandler {
 
     if (exception instanceof AccountStatusException) {
       errorDetail = ProblemDetail.forStatusAndDetail(HttpStatusCode.valueOf(403), exception.getMessage());
-      errorDetail.setProperty("description", "The account is locked");
+      message = "Your account is disabled. Please contact the administrator for further information.";
     }
 
     if (exception instanceof AccessDeniedException) {
       errorDetail = ProblemDetail.forStatusAndDetail(HttpStatusCode.valueOf(403), exception.getMessage());
-      errorDetail.setProperty("description", "You are not authorized to access this resource");
+      message = "You are not authorized to access this resource.";
     }
 
     if (exception instanceof SignatureException) {
       errorDetail = ProblemDetail.forStatusAndDetail(HttpStatusCode.valueOf(403), exception.getMessage());
-      errorDetail.setProperty("description", "The JWT signature is invalid");
+      message = "The JWT token is invalid.";
     }
 
     if (exception instanceof ExpiredJwtException) {
       errorDetail = ProblemDetail.forStatusAndDetail(HttpStatusCode.valueOf(403), exception.getMessage());
-      errorDetail.setProperty("description", "The JWT token has expired");
+      message = "The JWT token has expired. Please login again.";
     }
 
     if (errorDetail == null) {
       errorDetail = ProblemDetail.forStatusAndDetail(HttpStatusCode.valueOf(500), exception.getMessage());
-      errorDetail.setProperty("description", "Unknown internal server error.");
+      message = "Unknown internal server error.";
     }
 
+    errorDetail.setProperty("description", message);
     return errorDetail;
   }
 }

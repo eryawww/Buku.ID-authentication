@@ -4,10 +4,10 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class LoginUserDtoTest {
+class LoginUserDtoTest {
 
     @Test
-    public void testLoginUserDtoGettersAndSetters() {
+    void testLoginUserDtoGettersAndSetters() {
         String expectedEmail = "user@example.com";
         String expectedPassword = "securePassword";
 

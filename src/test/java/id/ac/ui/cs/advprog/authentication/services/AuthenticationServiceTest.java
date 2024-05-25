@@ -19,7 +19,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
-public class AuthenticationServiceTest {
+class AuthenticationServiceTest {
 
     @Mock
     private UserRepository userRepository;
@@ -34,12 +34,12 @@ public class AuthenticationServiceTest {
     private AuthenticationService authenticationService;
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         MockitoAnnotations.openMocks(this);
     }
 
     @Test
-    public void testAuthenticateSuccess() {
+    void testAuthenticateSuccess() {
         String email = "erz@example.com";
         String password = "samplePassword";
 
@@ -62,7 +62,7 @@ public class AuthenticationServiceTest {
     }
 
     @Test
-    public void testAuthenticateFailure() {
+    void testAuthenticateFailure() {
         String email = "zzxx@example.com";
         String password = "samplePassword";
 
@@ -79,7 +79,7 @@ public class AuthenticationServiceTest {
     }
 
     @Test
-    public void testSignup() {
+    void testSignup() {
         // Given
         String fullName = "Erz";
         String email = "erz@example.com";

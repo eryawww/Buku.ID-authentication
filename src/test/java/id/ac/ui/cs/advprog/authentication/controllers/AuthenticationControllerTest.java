@@ -1,9 +1,7 @@
 package id.ac.ui.cs.advprog.authentication.controllers;
 
-import id.ac.ui.cs.advprog.authentication.dtos.LoginResponse;
 import id.ac.ui.cs.advprog.authentication.dtos.LoginUserDto;
 import id.ac.ui.cs.advprog.authentication.dtos.RegisterUserDto;
-import id.ac.ui.cs.advprog.authentication.dtos.ResponseUserDto;
 import id.ac.ui.cs.advprog.authentication.models.entities.UserEntity;
 import id.ac.ui.cs.advprog.authentication.services.AuthenticationService;
 import id.ac.ui.cs.advprog.authentication.services.JwtService;
@@ -23,7 +21,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.hamcrest.Matchers.*;
 
-public class AuthenticationControllerTest {
+class AuthenticationControllerTest {
 
     private MockMvc mockMvc;
 
@@ -37,13 +35,13 @@ public class AuthenticationControllerTest {
     private AuthenticationController authenticationController;
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         MockitoAnnotations.openMocks(this);
         mockMvc = MockMvcBuilders.standaloneSetup(authenticationController).build();
     }
 
     @Test
-    public void testRegister() throws Exception {
+    void testRegister() throws Exception {
         RegisterUserDto registerUserDto = new RegisterUserDto();
         registerUserDto.setFullName("Erz ZX");
         registerUserDto.setEmail("erz@example.com");
@@ -68,7 +66,7 @@ public class AuthenticationControllerTest {
     }
 
     @Test
-    public void testAuthenticate() throws Exception {
+    void testAuthenticate() throws Exception {
         LoginUserDto loginUserDto = new LoginUserDto();
         loginUserDto.setEmail("erz@example.com");
         loginUserDto.setPassword("password123");

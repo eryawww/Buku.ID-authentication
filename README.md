@@ -7,6 +7,9 @@
 # Buku.ID-authentication
 
 [![](https://github.com/TK-Advance-Programming-A7/Buku.ID-authentication/actions/workflows/ci-cd.yml/badge.svg)](https://github.com/TK-Advance-Programming-A7/Buku.ID-authentication/actions/workflows/ci-cd.yml)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=tk-a7-adpro_authentication&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=tk-a7-adpro_authentication)
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=tk-a7-adpro_authentication&metric=coverage)](https://sonarcloud.io/summary/new_code?id=tk-a7-adpro_authentication)
+[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=tk-a7-adpro_authentication&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=tk-a7-adpro_authentication)
 
 Buku.ID-authentication is the component of the Buku.ID e-commerce platform, focused on managing user authentication and profile information. This service ensures secure access control and handles user credentials and session management efficiently.
 
