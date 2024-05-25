@@ -1,5 +1,8 @@
 package id.ac.ui.cs.advprog.authentication.models;
 
+import id.ac.ui.cs.advprog.authentication.dtos.RegisterUserDto;
+import org.springframework.security.crypto.password.PasswordEncoder;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -10,12 +13,16 @@ import id.ac.ui.cs.advprog.authentication.models.entities.UserEntity;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import org.mockito.Mockito;
+import static org.mockito.Mockito.when;
+
 import java.util.UUID;
 
 public class UserTest {
   UserBuilder userBuilder = new UserBuilder();
   UserEntity user = null;
   String randomUUID = UUID.randomUUID().toString();
+  PasswordEncoder passwordEncoder;
 
   @BeforeEach
   void setUp() {
@@ -28,6 +35,8 @@ public class UserTest {
         .setGender("MALE")
         .build();
     user.setIdUser(randomUUID);
+    passwordEncoder = Mockito.mock(PasswordEncoder.class);
+
   }
 
   @Test
@@ -126,5 +135,31 @@ public class UserTest {
     assertThrows(IllegalArgumentException.class, () -> {
       user.setGender("INVALID");
     });
+  }
+
+  @Test
+  public void testFromRegisterUserDTO() {
+    RegisterUserDto dto = new RegisterUserDto();
+    dto.setFullName("John Doe");
+    dto.setEmail("john.doe@example.com");
+    dto.setPassword("plainPassword");
+    dto.setRole("USER");
+    dto.setGender("male");
+    dto.setPhone("1234567890");
+    dto.setBio("A simple bio");
+
+    String encodedPassword = "encodedPassword";
+    when(passwordEncoder.encode(dto.getPassword())).thenReturn(encodedPassword);
+
+    UserBuilder builder = userBuilder.fromRegisterUserDTO(dto, passwordEncoder);
+    UserEntity userEntity = builder.build();
+
+    assertEquals("John Doe", userEntity.getFullName());
+    assertEquals("john.doe@example.com", userEntity.getEmail());
+    assertEquals(encodedPassword, userEntity.getPassword());
+    assertEquals("USER", userEntity.getRole());
+    assertEquals("MALE", userEntity.getGender());
+    assertEquals("1234567890", userEntity.getPhone());
+    assertEquals("A simple bio", userEntity.getBio());
   }
 }
