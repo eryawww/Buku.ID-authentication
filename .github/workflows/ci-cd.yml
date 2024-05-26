@@ -30,12 +30,13 @@ jobs:
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
           restore-keys: |
             ${{ runner.os }}-gradle-
+
       - name: Make gradlew executable
         run: chmod +x ./gradlew
+
       - name: Build with Gradle
-        run: |
-          ./gradlew assemble
-      # (Optional) Add steps for running tests and generating reports
+        run: ./gradlew assemble
+
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
         with:
@@ -47,20 +48,6 @@ jobs:
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/dev' || github.ref == 'refs/heads/staging' || github.ref == 'refs/heads/main'
     needs: build
-    services:
-      postgres:
-        image: postgres:latest
-        ports:
-          - 5432:5432
-        options: >-
-          --health-cmd "pg_isready -U postgres"
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
-        env:
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: paulmuaddib
-          POSTGRES_DB: book
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
@@ -71,8 +58,10 @@ jobs:
           distribution: "temurin"
           java-version: "21"
           cache: "gradle"
+
       - name: Make gradlew executable
         run: chmod +x ./gradlew
+
       - name: Cache Gradle dependencies
         uses: actions/cache@v4
         with:
@@ -81,32 +70,11 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-gradle-
 
-      - name: Wait for PostgreSQL
-        run: |
-          for i in {1..30}; do
-            if pg_isready -h localhost -p 5432 -U postgres; then
-              echo "PostgreSQL is up and running"
-              break
-            fi
-            echo "Waiting for PostgreSQL..."
-            sleep 1
-          done
-          if ! pg_isready -h localhost -p 5432 -U postgres; then
-            echo "PostgreSQL failed to start" && exit 1
-          fi
-
       - name: Test with Gradle
-        env:
-          GITHUB_TOKEN: ${{ secrets.GIT_HUB_TOKEN }}  # Needed to get PR information, if any
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          SPRING_DATASOURCE_URL: jdbc:postgresql://localhost:5432/book
-          SPRING_DATASOURCE_USERNAME: postgres
-          SPRING_DATASOURCE_PASSWORD: paulmuaddib
         run: |
           ./gradlew check --info --stacktrace
           ./gradlew test
           ./gradlew jacocoTestReport
-      # (Optional) Add steps for generating coverage report and other post-test tasks
 
   publish:
     name: Publish Docker Image
@@ -116,21 +84,18 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
-      - name: check directory
-        run: ls -al
+
       - name: Download Artifact
         uses: actions/download-artifact@v4
         with:
           name: java-app
-      - name: check directory
-        run: ls -al
+
       - name: Docker login
         run: echo ${{ secrets.DOCKER_PASSWORD }} | docker login -u ${{ secrets.REGISTRY_USER }} --password-stdin docker.io
-      - name: Set Docker BuildKit
-        run: export DOCKER_BUILDKIT=1
-      - name: Build Docker Image
+
+      - name: Build and Push Docker Image
         run: |
-          docker build --build-arg PRODUCTION=${{ secrets.PRODUCTION }} --build-arg JDBC_DATABASE_PASSWORD=${{ secrets.JDBC_DATABASE_PASSWORD }} --build-arg JDBC_DATABASE_URL=${{ secrets.JDBC_DATABASE_URL }} --build-arg JDBC_DATABASE_USERNAME=${{ secrets.JDBC_DATABASE_USERNAME }} -t ${{ secrets.REGISTRY_USER }}/${{ secrets.IMAGE_NAME }}:${{ secrets.IMAGE_TAG }} .
+          docker build --build-arg PRODUCTION=${{ secrets.PRODUCTION }} --build-arg JWT_SECRET_KEY=${{ secrets.JWT_SECRET_KEY }} --build-arg JWT_EXPIRE_DURATION=${{ secrets.JWT_EXPIRE_DURATION }} --build-arg JDBC_DATABASE_PASSWORD=${{ secrets.JDBC_DATABASE_PASSWORD }} --build-arg JDBC_DATABASE_URL=${{ secrets.JDBC_DATABASE_URL }} --build-arg JDBC_DATABASE_USERNAME=${{ secrets.JDBC_DATABASE_USERNAME }} -t ${{ secrets.REGISTRY_USER }}/${{ secrets.IMAGE_NAME }}:${{ secrets.IMAGE_TAG }} .
           docker push ${{ secrets.REGISTRY_USER }}/${{ secrets.IMAGE_NAME }}:${{ secrets.IMAGE_TAG }}
 
   deploy:
@@ -143,27 +108,17 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Install SSH client
-        run: sudo apt-get install openssh-client
+        run: sudo apt-get install -y openssh-client
 
       - name: Create SSH key
-        run: echo "${{ secrets.SSH_KEY }}" > ssh-key.pem && cat ssh-key.pem
-
-      - name: Update permission
-        run: chmod 400 ssh-key.pem
+        run: |
+          echo "${{ secrets.SSH_KEY }}" > ssh-key.pem
+          chmod 400 ssh-key.pem
 
       - name: Deploy to GCP
         run: |
-          REMOTE_CMD="ssh -o StrictHostKeyChecking=no -i ssh-key.pem ${{ secrets.GCP_USERNAME }}@${{ secrets.GCP_STATIC_IP }}"
-          
-          # Ensure Docker is installed and accessible
-          $REMOTE_CMD "command -v docker || (curl -fsSL https://get.docker.com -o get-docker.sh && sudo sh get-docker.sh)"
-          
-          # Copy files to the remote server
           scp -o StrictHostKeyChecking=no -i ssh-key.pem -r ./docker-compose.yml ./monitoring ${{ secrets.GCP_USERNAME }}@${{ secrets.GCP_STATIC_IP }}:~/
-          
-          # Execute remote commands via SSH
-          $REMOTE_CMD << EOF
+          ssh -o StrictHostKeyChecking=no -i ssh-key.pem ${{ secrets.GCP_USERNAME }}@${{ secrets.GCP_STATIC_IP }} "
             sudo docker container rm -f ${{ secrets.CONTAINER_NAME }} || true &&
             sudo docker image rm -f ${{ secrets.REGISTRY_USER }}/${{ secrets.IMAGE_NAME }}:${{ secrets.IMAGE_TAG }} || true &&
-            sudo docker run --name ${{ secrets.CONTAINER_NAME }} -d -p 80:8080 ${{ secrets.REGISTRY_USER }}/${{ secrets.IMAGE_NAME }}:${{ secrets.IMAGE_TAG }}
-          EOF
+            sudo docker run --name ${{ secrets.CONTAINER_NAME }} -d -p 80:8080 ${{ secrets.REGISTRY_USER }}/${{ secrets.IMAGE_NAME }}:${{ secrets.IMAGE_TAG }}"
