@@ -87,7 +87,11 @@ jobs:
 
       - name: Deploy to GCP
         run: |
-          ssh -o StrictHostKeyChecking=no -i ssh-key.pem ${{ secrets.GCP_USERNAME }}@${{ secrets.GCP_STATIC_IP }} "
+          REMOTE_CMD="ssh -o StrictHostKeyChecking=no -i ssh-key.pem ${{ secrets.GCP_USERNAME }}@${{ secrets.GCP_STATIC_IP }}"
+          $REMOTE_CMD "command -v docker || (curl -fsSL https://get.docker.com -o get-docker.sh && sudo sh get-docker.sh)"
+          scp -o StrictHostKeyChecking=no -i ssh-key.pem -r ./docker-compose.yml ./monitoring ${{ secrets.GCP_USERNAME }}@${{ secrets.GCP_STATIC_IP }}:~/
+          $REMOTE_CMD << EOF
             sudo docker container rm -f ${{ secrets.CONTAINER_NAME }} || true &&
             sudo docker image rm -f ${{ secrets.REGISTRY_USER }}/${{ secrets.IMAGE_NAME }}:${{ secrets.IMAGE_TAG }} || true &&
-            sudo docker run --name ${{ secrets.CONTAINER_NAME }} -d -p 80:8080 ${{ secrets.REGISTRY_USER }}/${{ secrets.IMAGE_NAME }}:${{ secrets.IMAGE_TAG }}"
+            sudo docker run --name ${{ secrets.CONTAINER_NAME }} -d -p 80:8080 ${{ secrets.REGISTRY_USER }}/${{ secrets.IMAGE_NAME }}:${{ secrets.IMAGE_TAG }}
+          EOF
