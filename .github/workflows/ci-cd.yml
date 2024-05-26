@@ -82,6 +82,9 @@ jobs:
           echo "${{ secrets.SSH_KEY }}" > ssh-key.pem
           chmod 400 ssh-key.pem
 
+      - name: Update permission
+        run: chmod 400 ssh-key.pem
+
       - name: Deploy to GCP
         run: |
           ssh -o StrictHostKeyChecking=no -i ssh-key.pem ${{ secrets.GCP_USERNAME }}@${{ secrets.GCP_STATIC_IP }} "
