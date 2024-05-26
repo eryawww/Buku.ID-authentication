@@ -77,10 +77,16 @@ jobs:
       - name: Install SSH client
         run: sudo apt-get install -y openssh-client
 
-      - name: Create SSH key
-        run: |
-          echo "${{ secrets.SSH_KEY }}" > ssh-key.pem
-          chmod 400 ssh-key.pem
+#      - name: Create SSH key
+#        run: |
+#          echo "${{ secrets.SSH_KEY }}" > ssh-key.pem
+#          chmod 400 ssh-key.pem
+
+      - name: Start ssh-agent
+        uses: webfactory/ssh-agent@v0.5.3
+        with:
+          ssh-private-key: ${{ secrets.SSH_KEY }}
+          ssh-passphrase: ${{ secrets.SSH_PASSPHRASE }}
 
       - name: Deploy to GCP
         run: |
