@@ -47,7 +47,6 @@ jobs:
     name: Publish Docker Image
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/staging' || github.ref == 'refs/heads/main'
-    needs: test
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
